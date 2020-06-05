@@ -82,9 +82,9 @@ stages:
           - download: current
             artifact: drop
           - task: AzureWebApp@1
-            displayName: 'Azure App Service Deploy: website'
             inputs:
-              appType: 'webapp'
-              azureSubscription: '$(RGName)'
+              azureSubscription: 'Visual Studio Enterprise Subscription – MPN(b2aa2fb5-ebd9-4b5c-860a-4ac3b996891c)'
+              appType: 'webApp'
               appName: '$(appName)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
+              deploymentMethod: 'auto'
