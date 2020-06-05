@@ -17,10 +17,8 @@ stages:
         - npm
 
     variables:
-      - name: wwwrootDir
-        value: 'Tailspin.SpaceGame.Web/wwwroot'
-      - name: dotnetSdkVersion
-        value: '3.1.100'
+      wwwrootDir: 'Tailspin.SpaceGame.Web/wwwroot'
+      dotnetSdkVersion: '3.1.100'
 
     steps:
     - task: UseDotNet@2
@@ -72,10 +70,11 @@ stages:
   displayName: 'Deploy to the dev environment'
   dependsOn: Build
   condition: |
-        and(
-          succeeded(),
-          eq(variables['Build.SourceBranchName'], variables['releaseBranchName'])
-        )
+    and
+    (
+      succeeded(),
+      eq(variables['Build.SourceBranchName'], variables['releaseBranchName'])
+    )
   jobs:
   - deployment: Deploy
     pool:
@@ -90,9 +89,9 @@ stages:
           - download: current
             artifact: drop
           - task: AzureWebApp@1
+            displayName: 'Azure App Service Deploy: website'
             inputs:
-              azureSubscription: '$(subName)'
               appType: 'webApp'
+              azureSubscription: '$(subName)'
               appName: '$(WebAppNameDev)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
-              deploymentMethod: 'auto'
