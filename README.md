@@ -1,3 +1,4 @@
+[![Build Status](https://dev.azure.com/Kabel-DevOps-Learning/DRomer-Space/_apis/build/status/mslearn-tailspin-spacegame-web?branchName=master)](https://dev.azure.com/Kabel-DevOps-Learning/DRomer-Space/_build/latest?definitionId=454&branchName=master)
 
 # Contributing
 
