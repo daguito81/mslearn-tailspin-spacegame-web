@@ -81,10 +81,10 @@ stages:
           steps:
           - download: current
             artifact: drop
-          - task: AzureRmWebAppDeployment@4
+          - task: AzureWebApp@1
+            displayName: 'Azure App Service Deploy: website'
             inputs:
-              ConnectionType: 'AzureRM'
-              azureSubscription: 'DagoDevOps RG'
-              appType: 'webApp'
-              WebAppName: '$(appName)'
-              packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+              appType: 'webapp'
+              azureSubscription: '$(RGName)'
+              appName: '$(appName)'
+              package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
