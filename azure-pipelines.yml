@@ -2,9 +2,8 @@ trigger:
   - '*'
   
 variables:
-  - group: 'Release'
-  - name: buildConfiguration
-    value: 'Release'
+  buildConfiguration: 'Release'
+  releaseBranchName: 'release'
 
 stages:
 - stage: 'Build'
@@ -69,9 +68,14 @@ stages:
     - publish: '$(Build.ArtifactStagingDirectory)'
       artifact: drop
 
-- stage: 'Deploy'
-  displayName: 'Deploy the web application'
+- stage: 'Dev'
+  displayName: 'Deploy to the dev environment'
   dependsOn: Build
+  condition: |
+        and(
+          succeded(),
+          eq(variables['Build.SourceBranchName'], variables['releaseBranchName'])
+        )
   jobs:
   - deployment: Deploy
     pool:
@@ -89,6 +93,6 @@ stages:
             inputs:
               azureSubscription: '$(subName)'
               appType: 'webApp'
-              appName: '$(appName)'
+              appName: '$(WebAppNameDev)'
               package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip'
               deploymentMethod: 'auto'
